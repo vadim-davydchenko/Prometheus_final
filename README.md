@@ -13,7 +13,7 @@
   
    `docker-compose -f docker-compose-mysqlexporter.yml up -d`
  
-- Install `node_exporter` and setting [systemd service](https://github.com/vadim-davydchenko/prometheus_final/blob/master/node_exporter.service) from him
+- Install `node_exporter` and setting [systemd service](https://github.com/vadim-davydchenko/prometheus_final/blob/master/node_exporter.service) for him
 
 #### On node2:
 
