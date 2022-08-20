@@ -1,0 +1,9 @@
+mysql_exp:
+    image: prom/mysqld-exporter
+    ports:
+      - "9104:9104"
+    environment:
+      DATA_SOURCE_NAME: "wordpress:wordpress@(db:3306)/"
+    volumes:
+    depends_on:
+      - db
