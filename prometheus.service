@@ -11,3 +11,5 @@ ExecStart=/opt/prometheus/prometheus \
     --web.console.templates=/opt/prometheus/consoles \
     --web.console.libraries=/opt/prometheus/console_libraries \
     --web.listen-address="0.0.0.0:9090"
+[Install]
+WantedBy=multi-user.target
