@@ -1,0 +1,23 @@
+- name: Create docker-compose.yml for cadvisor
+  community.docker.docker_compose:
+    project_name: "{{ cadvisor_compose_name }}"
+    definition:
+      version: '3.2'
+      services:
+        cadvisor:
+          image: gcr.io/cadvisor/cadvisor:latest
+          container_name: cadvisor
+          ports:
+            - "{{ cadvisor_port }}:{{ cadvisor_port }}"
+          volumes:
+            - "/:/rootfs:ro"
+            - "/var/run:/var/run:rw"
+            - "/sys:/sys:ro"
+            - "/var/lib/docker/:/var/lib/docker:ro"
+          depends_on:
+            - redis
+        redis:
+          image: redis:latest
+          container_name: redis
+          ports:
+            - "{{ redis_port }}:{{ redis_port }}"

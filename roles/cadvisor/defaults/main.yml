@@ -1,0 +1,3 @@
+cadvisor_compose_name: "cadvisor"
+cadvisor_port: 8080
+cadvisor_redis_port: 6379

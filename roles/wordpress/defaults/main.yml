@@ -1,0 +1,6 @@
+wordpress_db_data_path: "{{ ansible_user_dir }}/db_data"
+wordpress_data_path: "{{ ansible_user_dir }}/wordpress_data"
+wordpress_compose_name: "wordpress"
+wordpress_mysql_root_password: "somewordpress"
+wordpress_db_password: "wordpress"
+wordpress_port: 8000

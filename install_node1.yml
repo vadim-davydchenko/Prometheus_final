@@ -1,0 +1,8 @@
+- name: Install services for prometheus
+  hosts: nodes
+  become: true
+
+  roles:
+    - docker
+    - wordpress
+    - cadvisor

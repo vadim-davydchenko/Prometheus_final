@@ -1,0 +1,55 @@
+- name: WORDPRESS | Create directory for mysql
+  ansible.builtin.file:
+    path: "{{ wordpress_db_data_path }}"
+    state: directory
+    mode: '0755'
+
+- name: WORDPRESS | Create directory for wordpress
+  ansible.builtin.file:
+    path: "{{ wordpress_data_path }}"
+    state: directory
+    mode: '0755'
+
+- name: WORDPRESS | Create docker-compose.yml
+  community.docker.docker_compose:
+    project_name: "{{ wordpress_compose_name }}"
+    definition:
+      version: '3.9'
+      services:
+        db:
+          image: mysql:5.7
+          restart: always
+          environment:
+            MYSQL_ROOT_PASSWORD: "{{ wordpress_mysql_root_password }}"
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: "{{ wordpress_db_password }}"
+          volumes:
+            - "db_data:/var/lib/mysql"
+        wordpress:
+          depends_on:
+            - db
+          image: wordpress:latest
+          restart: always
+          environment:
+            WORDPRESS_DB_HOST: db:3306
+            WORDPRESS_DB_USER: wordpress
+            WORDPRESS_DB_PASSWORD: "{{ wordpress_db_password }}"
+            WORDPRESS_DB_NAME: wordpress
+          volumes:
+            - "wordpress_data:/var/www/html"
+          ports:
+            - "{{ wordpress_port }}:80"
+      volumes:
+        db_data: {}
+        wordpress_data: {}
+    state: present
+
+- name: WORDPRESS | Check running docker-compose
+  ansible.builtin.command: docker ps
+  changed_when: false
+  register: result
+
+- name: WORDPRESS | Output running docker-compose
+  ansible.builtin.debug:
+    var: result

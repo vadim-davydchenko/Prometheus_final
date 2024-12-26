@@ -1,0 +1,10 @@
+all:
+  children:
+    nodes:
+      hosts:
+        node1:
+          ansible_host: 10.1.0.1
+    prometheus:
+      hosts:
+        prometheus:
+          ansible_host: 10.1.0.2
