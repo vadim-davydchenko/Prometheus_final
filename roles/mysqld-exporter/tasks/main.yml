@@ -1,0 +1,14 @@
+- name: Run docker-compose mysqld-exporter
+  community.docker.docker_compose:
+    project_name: "{{ mysqld_exporter_compose_name }}"
+    definition:
+      version: '3.2'
+      services:
+        mysqld-exporter:
+          image: prom/mysqld-exporter:latest
+          container_name: mysqld-exporter
+          ports:
+            - "{{ mysqld_exporter_port }}:{{ mysqld_exporter_port }}"
+          environment:
+            - DATA_SOURCE_NAME={{ mysql_connection_string }}
+    state: present

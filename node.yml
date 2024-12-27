@@ -6,3 +6,5 @@
     - docker
     - wordpress
     - cadvisor
+    - mysqld-exporter
+    - node-exporter

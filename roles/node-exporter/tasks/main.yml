@@ -1,0 +1,12 @@
+- name: Run node-exporter
+  community.docker.docker_compose:
+    project_name: "{{ node_exporter_compose_name }}"
+    definition:
+      version: '3.2'
+      services:
+        node-exporter:
+          image: prom/node-exporter:1.2.2
+          container_name: node-exporter
+          ports:
+            - "{{ node_exporter_port }}:{{ node_exporter_port }}"
+    state: present

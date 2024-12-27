@@ -1,0 +1,33 @@
+- name: Create config file prometheus
+  ansible.builtin.template:
+    src: prometheus.yml.j2
+    dest: "{{ ansible_user_dir }}/prometheus.yml"
+    mode: '0644'
+
+- name: Run Prometheus docker container
+  community.docker.docker_container:
+    name: prometheus
+    image: prom/prometheus
+    state: started
+    volumes:
+      - "{{ ansible_user_dir }}/prometheus.yml:/etc/prometheus/prometheus.yml:ro"
+    ports:
+      - "{{ prometheus_port }}:{{ prometheus_port }}"
+    command: >
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus/data"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--web.enable-lifecycle"
+    restart_policy:
+      name: always
+
+- name: Run Grafana docker container
+  community.docker.docker_container:
+    name: grafana
+    image: grafana/grafana
+    state: started
+    ports:
+      - "{{ prometheus_grafana_port }}:{{ prometheus_grafana_port }}"
+    restart_policy:
+      name: always
